@@ -16,7 +16,7 @@
 dash.adam-rms.com {
     import cloudflare
     php_fastcgi adamrms:9000 {
-        root * /var/www/html/admin
+        root /var/www/html/admin
         index index.php
         dial_timeout  5s
     }
@@ -24,7 +24,7 @@ dash.adam-rms.com {
 :443 {
     import cloudflare
     php_fastcgi adamrms:9000 {
-        root * /var/www/html/test
+        root /var/www/html/test
         index index.php
         dial_timeout  5s
     }
