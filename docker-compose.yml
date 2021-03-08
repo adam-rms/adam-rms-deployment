@@ -49,7 +49,19 @@ services:
     env_file:
       - .env
   compressor:
-    image: ghcr.io/bstudios/adam-rms/imageCompressor:latest
+    image: ghcr.io/bstudios/adam-rms-imagecompressor/main:latest
+    restart: always
+    depends_on:
+      - db
+    environment:
+      - MYSQL_HOSTNAME=db
+      - MYSQL_DATABASE=nouse
+      - MYSQL_USER=userDocker
+      - MYSQL_PASSWORD=passDocker
+    env_file:
+      - .env
+  deletor:
+    image: ghcr.io/bstudios/adam-rms-s3deletor/main:latest
     restart: always
     depends_on:
       - db
