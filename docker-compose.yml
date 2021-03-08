@@ -8,9 +8,9 @@ services:
     volumes:
       - caddy:/data
       - ./docker/caddy/Caddyfile:/etc/caddy/Caddyfile
-      - .ssl.key:/etc/ssl/private/ssl.key
-      - .ssl.crt:/etc/ssl/certs/ssl.crt
-      - .origin-pull-ca.pem:/etc/ssl/certs/origin-pull-ca.pem
+      - ./ssl.key:/etc/ssl/private/ssl.key
+      - ./ssl.crt:/etc/ssl/certs/ssl.crt
+      - ./origin-pull-ca.pem:/etc/ssl/certs/origin-pull-ca.pem
     environment:
       ACME_AGREE: 'true'
     depends_on:
