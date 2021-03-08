@@ -1,0 +1,96 @@
+version: '3'
+services:
+  caddy:
+    image: caddy/caddy:2-alpine
+    restart: always
+    ports:
+      - 443:443
+    volumes:
+      - caddy:/data
+      - ./docker/caddy/Caddyfile:/etc/caddy/Caddyfile
+      - .ssl.key:/etc/ssl/private/ssl.key
+      - .ssl.crt:/etc/ssl/certs/ssl.crt
+      - .origin-pull-ca.pem:/etc/ssl/certs/origin-pull-ca.pem
+    environment:
+      ACME_AGREE: 'true'
+    depends_on:
+      - db
+      - adamrms
+  db:
+    image: mysql/mysql-server:8.0
+    command: --default-authentication-plugin=mysql_native_password --innodb-thread-concurrency=0 --sort_buffer_size=512K
+    container_name: db
+    expose:
+      -3306:3306
+    volumes:
+      - db_data:/var/lib/mysql
+      - /etc/localtime:/etc/localtime:ro
+      - ./docker/mysql:/etc/mysql/conf.d
+    restart: always
+    environment:
+      - MYSQL_DATABASE=adamrms
+      - MYSQL_ROOT_HOST=%
+      - MYSQL_USER=userDocker
+      - MYSQL_PASSWORD=passDocker
+      - MYSQL_ROOT_PASSWORD=rootPass
+    env_file:
+      - .env
+  adamrms:
+    image: ghcr.io/jbithell/adam-rms/main:latest
+    container_name: nouse-container
+    restart: always
+    depends_on:
+      - db
+    environment:
+      - MYSQL_HOSTNAME=db
+      - MYSQL_DATABASE=nouse
+      - MYSQL_USER=userDocker
+      - MYSQL_PASSWORD=passDocker
+    env_file:
+      - .env
+  compressor:
+    image: ghcr.io/bstudios/adam-rms/imageCompressor:latest
+    restart: always
+    depends_on:
+      - db
+    environment:
+      - MYSQL_HOSTNAME=db
+      - MYSQL_DATABASE=nouse
+      - MYSQL_USER=userDocker
+      - MYSQL_PASSWORD=passDocker
+    env_file:
+      - .env
+  mysql-backup:
+     image: databack/mysql-backup:latest
+     restart: unless-stopped
+     container_name: mysql-backup
+     environment:
+       - DB_SERVER=db
+       - DB_PORT=3306
+       - DB_USER=root
+       - DB_PASS=rootPass
+       - DB_NAMES=nouse
+       - DB_DUMP_FREQ=1440 #Daily
+       - DB_DUMP_BEGIN=0230 #2:30am
+       - COMPRESSION=gzip
+       - NICE=true
+     env_file:
+       - .env
+     depends_on:
+       - db
+     volumes:
+       - /etc/localtime:/etc/localtime:ro
+  watchtower:
+    image: containrrr/watchtower
+    container_name: watchtower
+    restart: always
+    environment:
+      - WATCHTOWER_NO_STARTUP_MESSAGE=true
+      - WATCHTOWER_CLEANUP=true
+      - WATCHTOWER_POLL_INTERVAL=30
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /root/.docker/config.json:/config.json
+volumes:
+  caddy:
+  db_data: { }
