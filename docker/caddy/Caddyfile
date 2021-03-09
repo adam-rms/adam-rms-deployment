@@ -21,7 +21,11 @@
         file_server
     }
 }
-beta.adam-rms.com, dash.adam-rms.com {
+dash.adam-rms.com {
+    redir {
+        if {scheme} is http
+        / https://{host}{uri}
+    }
     import cloudflare
     import errors
     route {
