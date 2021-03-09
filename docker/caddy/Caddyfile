@@ -21,11 +21,7 @@
         file_server
     }
 }
-dash.adam-rms.com {
-    redir {
-        if {scheme} is http
-        / https://{host}{uri}
-    }
+https://dash.adam-rms.com {
     import cloudflare
     import errors
     route {
