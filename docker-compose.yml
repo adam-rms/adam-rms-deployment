@@ -4,10 +4,12 @@ services:
     image: caddy/caddy:2-alpine
     restart: always
     ports:
+      - 80:80
       - 443:443
     volumes:
       - caddy:/data
       - ./docker/caddy/Caddyfile:/etc/caddy/Caddyfile
+      - ./docker/caddy/error.html:/etc/caddy/error.html
       - ./ssl.key:/etc/ssl/private/ssl.key
       - ./ssl.crt:/etc/ssl/certs/ssl.crt
       - ./origin-pull-ca.pem:/etc/ssl/certs/origin-pull-ca.pem

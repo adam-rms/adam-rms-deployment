@@ -13,6 +13,12 @@
         }
     }
 }
+(errors) {
+    handle_errors {
+        rewrite * /etc/caddy/error.html
+        file_server
+    }
+}
 dash.adam-rms.com {
     import cloudflare
     php_fastcgi adamrms:9000 {
@@ -20,12 +26,14 @@ dash.adam-rms.com {
         index index.php
         dial_timeout  5s
     }
+    import errors
 }
-:443 {
+https:// http:// {
     import cloudflare
     php_fastcgi adamrms:9000 {
         root /var/www/html/test
         index index.php
         dial_timeout  5s
     }
+    import errors
 }
