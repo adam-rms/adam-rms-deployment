@@ -28,7 +28,7 @@ dash.adam-rms.com {
     }
     import errors
 }
-https:// http:// {
+https://, http:// {
     import cloudflare
     php_fastcgi adamrms:9000 {
         root /var/www/html/test
