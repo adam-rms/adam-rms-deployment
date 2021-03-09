@@ -97,7 +97,6 @@ services:
     container_name: watchtower
     restart: always
     environment:
-      - WATCHTOWER_NO_STARTUP_MESSAGE=true
       - WATCHTOWER_CLEANUP=true
       - WATCHTOWER_POLL_INTERVAL=30
     volumes:
