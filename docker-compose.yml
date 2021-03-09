@@ -3,13 +3,13 @@ services:
   caddy:
     image: caddy/caddy:2-alpine
     restart: always
+    container_name: caddy
     ports:
       - 80:80
       - 443:443
     volumes:
-      - caddy:/data
       - ./docker/caddy/Caddyfile:/etc/caddy/Caddyfile
-      - ./docker/caddy/error.html:/etc/caddy/error.html
+      - ./docker/caddy/html:/var/www/html
       - ./ssl.key:/etc/ssl/private/ssl.key
       - ./ssl.crt:/etc/ssl/certs/ssl.crt
       - ./origin-pull-ca.pem:/etc/ssl/certs/origin-pull-ca.pem
@@ -39,7 +39,7 @@ services:
       - .env
   adamrms:
     image: ghcr.io/jbithell/adam-rms/main:latest
-    container_name: nouse-container
+    container_name: adamrms
     restart: always
     depends_on:
       - db
@@ -53,6 +53,7 @@ services:
   compressor:
     image: ghcr.io/bstudios/adam-rms-imagecompressor/main:latest
     restart: always
+    container_name: compressor
     depends_on:
       - db
     environment:
@@ -65,6 +66,7 @@ services:
   deletor:
     image: ghcr.io/bstudios/adam-rms-s3deletor/main:main
     restart: always
+    container_name: deletor
     depends_on:
       - db
     environment:
@@ -105,5 +107,4 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
       - /root/.docker/config.json:/config.json
 volumes:
-  caddy:
   db_data: { }

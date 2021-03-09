@@ -1,8 +1,10 @@
 {
     # Top level config and options for Caddy
-	http_port  80
-	https_port 443
-	admin off
+    http_port  80
+    https_port 443
+    admin off
+
+    email studios@jbithell.com
 }
 (cloudflare) {
     encode gzip
@@ -15,25 +17,57 @@
 }
 (errors) {
     handle_errors {
-        rewrite * /etc/caddy/error.html
+        rewrite * /var/www/html/error.html
         file_server
     }
 }
-dash.adam-rms.com {
+beta.adam-rms.com, dash.adam-rms.com {
     import cloudflare
-    php_fastcgi adamrms:9000 {
-        root /var/www/html/admin
-        index index.php
-        dial_timeout  5s
-    }
     import errors
+    route {
+        @canonicalPath {
+                file {path}/index.php
+                not path */
+        }
+        redir @canonicalPath {path}/ 308
+
+        @roots path */
+        rewrite @roots {path}/index.php
+
+        @phpFiles path *.php
+        reverse_proxy @phpFiles adamrms:9000 {
+                transport fastcgi {
+                    dial_timeout  5s
+                        split .php
+                        root /var/www/html/admin
+                }
+        }
+        rewrite * /var/www/html/404.html
+        file_server
+    }
 }
-https://, http:// {
+https:// {
     import cloudflare
-    php_fastcgi adamrms:9000 {
-        root /var/www/html/test
-        index index.php
-        dial_timeout  5s
-    }
     import errors
+    route {
+        @canonicalPath {
+                file {path}/index.php
+                not path */
+        }
+        redir @canonicalPath {path}/ 308
+
+        @roots path */
+        rewrite @roots {path}/index.php
+
+        @phpFiles path *.php
+        reverse_proxy @phpFiles adamrms:9000 {
+                transport fastcgi {
+                    dial_timeout  5s
+                        split .php
+                        root /var/www/html/public
+                }
+        }
+        rewrite * /var/www/html/public404.html
+        file_server
+    }
 }
