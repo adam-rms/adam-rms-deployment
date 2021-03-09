@@ -34,3 +34,12 @@ cat backup.sql | docker exec -i db /usr/bin/mysql -u root --password=MYSqlRootPa
 ## MySQL Backups
 
 `mysql-backup` runs a backup every day at about 2:30am and dumps it in S3. Ensure the bucket has an appropriate lifecycle rule setup
+
+
+# Backblaze
+
+You need to setup the CORS on the bucket to allow uploads
+
+First download and authenticate the AWS Cli (using your Backblaze credentials), then download the cors.json file from this repo and run:
+
+`aws s3api put-bucket-cors --bucket=BUCKETNAME --endpoint-url=https://s3.eu-central-003.backblazeb2.com  --cors-configuration=file://backblaze-cors.json`
