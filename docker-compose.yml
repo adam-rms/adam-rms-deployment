@@ -63,7 +63,7 @@ services:
     env_file:
       - .env
   deletor:
-    image: ghcr.io/bstudios/adam-rms-s3deletor/main:main
+    image: ghcr.io/bstudios/adam-rms-s3deletor/main:latest
     restart: always
     container_name: deletor
     depends_on:
