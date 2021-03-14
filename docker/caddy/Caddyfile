@@ -16,10 +16,7 @@
     }
 }
 (customExternalDomains) {
-    tls acme {
-        email studios@jbithell.com
-        disable_http_challenge
-    }
+    tls studios@jbithell.com
 }
 (errors) {
     handle_errors {
