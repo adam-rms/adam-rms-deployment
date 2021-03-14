@@ -42,7 +42,7 @@ https://dash.adam-rms.com {
                 transport fastcgi {
                     dial_timeout  5s
                         split .php
-                        root /etc/caddy/html/admin
+                        root /var/www/html/admin
                 }
         }
         rewrite * /etc/caddy/html/404.html
@@ -67,7 +67,7 @@ testclient.jbithell.com, inventory.yorkdramasoc.com {
                 transport fastcgi {
                     dial_timeout  5s
                         split .php
-                        root /etc/caddy/html/public
+                        root /var/www/html/public
                 }
         }
         rewrite * /etc/caddy/html/public404.html
