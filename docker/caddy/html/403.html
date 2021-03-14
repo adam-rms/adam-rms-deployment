@@ -6,7 +6,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js" integrity="sha256-xNjb53/rY+WmG+4L6tTl9m6PpqknWZvRt0rO1SRnJzw=" crossorigin="anonymous"></script>
     <link rel="stylesheet" media="screen" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600" />
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
-    <title>Error 404</title>
+    <title>Error 403</title>
     <style>
         * {
             -moz-box-sizing:border-box;
@@ -364,17 +364,17 @@
     <div class="post right"></div>
     <div class="pane">
         <div class="headline sign-text-color">
-            404
+            Error 403
         </div>
         <div class="context sign-text-color">
-            Looks like we can't find<br>
-            that file right now.
+            Sorry we can't let you<br>
+            download that file
         </div>
     </div>
 </div>
 <div class="text-container">
     <div class="headline secondary-text-color">
-        404
+        403
     </div>
     <div class="context primary-text-color">
 
@@ -440,7 +440,7 @@
     };
 
 
-    var ep = new ErrorPage('body', "404", "sign");
+    var ep = new ErrorPage('body', "403", "sign");
     ep.initialize();
 
     // hack to make sure content stays centered >_<
