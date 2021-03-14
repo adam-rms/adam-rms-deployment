@@ -15,9 +15,15 @@
         }
     }
 }
+(customExternalDomains) {
+    tls acme {
+        email studios@jbithell.com
+        disable_http_challenge
+    }
+}
 (errors) {
     handle_errors {
-        rewrite * /var/www/html/error.html
+        rewrite * /etc/caddy/html/error.html
         file_server
     }
 }
@@ -39,15 +45,15 @@ https://dash.adam-rms.com {
                 transport fastcgi {
                     dial_timeout  5s
                         split .php
-                        root /var/www/html/admin
+                        root /etc/caddy/html/admin
                 }
         }
-        rewrite * /var/www/html/404.html
+        rewrite * /etc/caddy/html/404.html
         file_server
     }
 }
-https:// {
-    import cloudflare
+testclient.jbithell.com, inventory.yorkdramasoc.com {
+    import customExternalDomains
     import errors
     route {
         @canonicalPath {
@@ -64,10 +70,10 @@ https:// {
                 transport fastcgi {
                     dial_timeout  5s
                         split .php
-                        root /var/www/html/public
+                        root /etc/caddy/html/public
                 }
         }
-        rewrite * /var/www/html/public404.html
+        rewrite * /etc/caddy/html/public404.html
         file_server
     }
 }

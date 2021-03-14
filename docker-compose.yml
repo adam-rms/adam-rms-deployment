@@ -9,7 +9,7 @@ services:
       - 443:443
     volumes:
       - ./docker/caddy/Caddyfile:/etc/caddy/Caddyfile
-      - ./docker/caddy/html:/var/www/html
+      - ./docker/caddy/html:/etc/caddy/html
       - ./ssl.key:/etc/ssl/private/ssl.key
       - ./ssl.crt:/etc/ssl/certs/ssl.crt
       - ./origin-pull-ca.pem:/etc/ssl/certs/origin-pull-ca.pem
