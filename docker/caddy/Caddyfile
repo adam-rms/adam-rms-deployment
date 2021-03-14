@@ -3,8 +3,6 @@
     http_port  80
     https_port 443
     admin off
-
-    email studios@jbithell.com
 }
 (cloudflare) {
     encode gzip
@@ -16,12 +14,17 @@
     }
 }
 (customExternalDomains) {
-    tls studios@jbithell.com
+    tls studios@jbithell.com {
+        #ca https://acme-staging-v02.api.letsencrypt.org/directory
+        ca https://acme-v02.api.letsencrypt.org/directory
+    }
 }
 (errors) {
     handle_errors {
-        rewrite * /etc/caddy/html/error.html
-        file_server
+        try_files {http.error.status_code}.html /error.html
+        file_server {
+            root /etc/caddy/html/
+        }
     }
 }
 https://dash.adam-rms.com {
@@ -45,8 +48,10 @@ https://dash.adam-rms.com {
                         root /var/www/html/admin
                 }
         }
-        rewrite * /etc/caddy/html/404.html
-        file_server
+        rewrite * /404.html
+        file_server {
+            root /etc/caddy/html/
+        }
     }
 }
 testclient.jbithell.com, inventory.yorkdramasoc.com {
@@ -70,7 +75,9 @@ testclient.jbithell.com, inventory.yorkdramasoc.com {
                         root /var/www/html/public
                 }
         }
-        rewrite * /etc/caddy/html/public404.html
-        file_server
+        rewrite * /public404.html
+        file_server {
+            root /etc/caddy/html/
+        }
     }
 }
