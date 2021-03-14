@@ -60,6 +60,7 @@ services:
       - MYSQL_DATABASE=adamrms
       - MYSQL_USER=userDocker
       - MYSQL_PASSWORD=passDocker
+      - SLEEP_TIME=60
     env_file:
       - .env
   deletor:
@@ -73,6 +74,7 @@ services:
       - MYSQL_DATABASE=adamrms
       - MYSQL_USER=userDocker
       - MYSQL_PASSWORD=passDocker
+      - SLEEP_TIME=600
     env_file:
       - .env
   mysql-backup:
