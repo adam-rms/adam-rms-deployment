@@ -13,7 +13,7 @@ services:
       - ./ssl.key:/etc/ssl/private/ssl.key
       - ./ssl.crt:/etc/ssl/certs/ssl.crt
       - ./origin-pull-ca.pem:/etc/ssl/certs/origin-pull-ca.pem
-      - caddy_data:/data #Caddy needs persistent storage to enable it to store ACME certificates
+      - caddy_data:/data    #Caddy needs persistent storage to enable it to store ACME certificates
     environment:
       ACME_AGREE: 'true'
     depends_on:
@@ -109,4 +109,4 @@ services:
       - /root/.docker/config.json:/config.json
 volumes:
   db_data: { }
-  caddy_data
+  caddy_data:
