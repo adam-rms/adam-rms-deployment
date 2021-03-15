@@ -54,7 +54,7 @@ https://dash.adam-rms.com {
         }
     }
 }
-testclient.jbithell.com, inventory.yorkdramasoc.com {
+testclient.jbithell.com, inventory.yorkdramasoc.com, inventory.yorktechsoc.org {
     import customExternalDomains
     import errors
     route {
