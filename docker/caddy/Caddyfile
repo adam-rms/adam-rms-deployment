@@ -13,15 +13,39 @@
         }
     }
 }
+(errors) {
+    handle_errors {
+        try_files {http.error.status_code}.html /error.html
+        file_server {
+            root /etc/caddy/html/
+        }
+    }
+}
 (customExternalDomains) {
+    import errors
     tls studios@jbithell.com {
         #ca https://acme-staging-v02.api.letsencrypt.org/directory
         ca https://acme-v02.api.letsencrypt.org/directory
     }
-}
-(errors) {
-    handle_errors {
-        try_files {http.error.status_code}.html /error.html
+    route {
+        @canonicalPath {
+            file {path}/index.php
+            not path */
+        }
+        redir @canonicalPath {path}/ 308
+
+        @roots path */
+        rewrite @roots {path}/index.php
+
+        @phpFiles path *.php
+        reverse_proxy @phpFiles adamrms:9000 {
+            transport fastcgi {
+                dial_timeout  5s
+                    split .php
+                    root /var/www/html/public
+            }
+        }
+        rewrite * /public404.html
         file_server {
             root /etc/caddy/html/
         }
@@ -54,30 +78,15 @@ https://dash.adam-rms.com {
         }
     }
 }
-testclient.jbithell.com, inventory.yorkdramasoc.com, inventory.yorktechsoc.org {
+
+
+
+testclient.jbithell.com {
     import customExternalDomains
-    import errors
-    route {
-        @canonicalPath {
-                file {path}/index.php
-                not path */
-        }
-        redir @canonicalPath {path}/ 308
-
-        @roots path */
-        rewrite @roots {path}/index.php
-
-        @phpFiles path *.php
-        reverse_proxy @phpFiles adamrms:9000 {
-                transport fastcgi {
-                    dial_timeout  5s
-                        split .php
-                        root /var/www/html/public
-                }
-        }
-        rewrite * /public404.html
-        file_server {
-            root /etc/caddy/html/
-        }
-    }
+}
+inventory.yorkdramasoc.com {
+    import customExternalDomains
+}
+inventory.yorktechsoc.org {
+    import customExternalDomains
 }
