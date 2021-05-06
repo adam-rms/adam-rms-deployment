@@ -38,7 +38,7 @@ services:
     env_file:
       - .env
   adamrms:
-    image: ghcr.io/jbithell/adam-rms/main:latest
+    image: ghcr.io/bstudios/adam-rms/main:latest
     container_name: adamrms
     restart: always
     depends_on:
