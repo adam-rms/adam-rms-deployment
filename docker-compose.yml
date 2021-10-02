@@ -1,7 +1,7 @@
 version: '3'
 services:
   caddy:
-    image: caddy/caddy:2-alpine
+    image: index.docker.io/caddy/caddy:2-alpine
     restart: always
     container_name: caddy
     ports:
@@ -20,7 +20,7 @@ services:
       - db
       - adamrms
   db:
-    image: mysql/mysql-server:8.0
+    image: index.docker.io/mysql/mysql-server:8.0
     command: --default-authentication-plugin=mysql_native_password --innodb-thread-concurrency=0 --sort_buffer_size=512K
     container_name: db
     ports:
@@ -79,7 +79,7 @@ services:
     env_file:
       - .env
   mysql-backup:
-     image: databack/mysql-backup:latest
+     image: index.docker.io/databack/mysql-backup:latest
      restart: unless-stopped
      container_name: mysql-backup
      environment:
@@ -98,7 +98,7 @@ services:
      volumes:
        - /etc/localtime:/etc/localtime:ro
   watchtower:
-    image: containrrr/watchtower
+    image: index.docker.io/containrrr/watchtower
     container_name: watchtower
     restart: always
     environment:
