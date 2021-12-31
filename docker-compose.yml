@@ -38,7 +38,7 @@ services:
     env_file:
       - .env
   adamrms:
-    image: ghcr.io/bstudios/adam-rms/main:latest
+    image: ghcr.io/adam-rms/adam-rms:latest
     container_name: adamrms
     restart: always
     depends_on:
@@ -51,7 +51,7 @@ services:
     env_file:
       - .env
   compressor:
-    image: ghcr.io/bstudios/adam-rms-imagecompressor/main:latest
+    image: ghcr.io/adam-rms/adam-rms-imagecompressor/main:latest
     restart: always
     container_name: compressor
     depends_on:
@@ -65,7 +65,7 @@ services:
     env_file:
       - .env
   deletor:
-    image: ghcr.io/bstudios/adam-rms-s3deletor/main:latest
+    image: ghcr.io/adam-rms/adam-rms-s3deletor/main:latest
     restart: always
     container_name: deletor
     depends_on:

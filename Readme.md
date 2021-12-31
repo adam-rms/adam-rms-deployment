@@ -1,6 +1,6 @@
 # AdamRMS Deployment
 
-This docker-compose file is an example of how you could deploy [AdamRMS](https://github.com/bstudios/adam-rms) on a production server
+This docker-compose file is an example of how you could deploy [AdamRMS](https://github.com/adam-rms/adam-rms) on a production server
 
 # Server Setup
 
@@ -8,7 +8,7 @@ This docker-compose file is an example of how you could deploy [AdamRMS](https:/
 
 1. Install docker `apt install docker.io docker-compose`
 1. Ensure docker boots on startup (`systemctl enable docker`)
-1. Clone this repo `git clone https://github.com/bstudios/adam-rms-deployment.git`
+1. Clone this repo `git clone https://github.com/adam-rms/adam-rms-deployment.git`
 1. `cd adam-rms-deployment` to get into the correct folder
 1. Download the Cloudflare Origin Certificate - place the `ssl.crt`, `ssl.key` & `origin-pull-ca.pem` files in the root of the directory
 1. Create `.env` based on the example file, and fill out the details (do this with `nano .env`)
