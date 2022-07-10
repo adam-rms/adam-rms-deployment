@@ -1,2 +1,0 @@
-* * * * * bash /var/www/cron-minute.sh > /var/log/cron.log 2>&1
-
